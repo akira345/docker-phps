@@ -1,0 +1,67 @@
+version: '2'
+volumes:
+  mysql_db:
+    driver: local
+services:
+  proxy:
+    build: proxy
+    depends_on:
+      - phpmyadmin
+      - php53
+      - php54
+      - php56
+      - php70
+    links:
+      - phpmyadmin:phpmyadmin
+      - php53:php53
+      - php54:php54
+      - php56:php56
+      - php70:php70
+    ports:
+      - 80:80
+  mysql:
+    image: mysql:5.6
+    environment:
+      MYSQL_ROOT_PASSWORD: passwd
+      MYSQL_USER: dbuser
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: mysqldb
+    volumes:
+      - mysql_db:/var/lib/mysql
+      - ./mysql/conf:/etc/mysql/conf.d
+      - ./mysql/logs:/var/log/mysql
+  phpmyadmin:
+    build: ./phpmyadmin
+    volumes:
+      - ./phpmyadmin/logs:/var/log/httpd/php
+    depends_on:
+      - mysql
+  php53:
+    build: ./php53
+    volumes:
+      - ./www:/var/www
+      - ./php53/logs:/var/log/httpd/php
+    depends_on:
+      - mysql
+  php54:
+    build: ./php54
+    volumes:
+      - ./www:/var/www
+      - ./php54/logs:/var/log/httpd/php
+    depends_on:
+      - mysql
+  php56:
+    build: ./php56
+    volumes:
+      - ./www:/var/www
+      - ./php56/logs:/var/log/httpd/php
+    depends_on:
+      - mysql
+  php70:
+    build: ./php70
+    volumes:
+      - ./www:/var/www
+      - ./php70/logs:/var/log/httpd/php
+    depends_on:
+      - mysql
+
