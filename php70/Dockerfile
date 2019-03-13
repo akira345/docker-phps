@@ -6,7 +6,7 @@ FROM centos:7
 RUN \cp -f /usr/share/zoneinfo/Japan /etc/localtime && echo -e 'ZONE="Asia/Tokyo"\nUTC=false' > /etc/sysconfig/clock
 
 # PHP7.0を入れるためにリポジトリをインストール
-RUN rpm -ivh http://ftp-srv2.kddilabs.jp/Linux/distributions/fedora/epel/7/x86_64/e/epel-release-7-9.noarch.rpm
+RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 RUN rpm -ivh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
 
 # PHP7.0、Apacheもろもろインストール
